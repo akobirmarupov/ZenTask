@@ -39,6 +39,7 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     'account',
     'common',
+    'event'
 ]
 
 EXTERNAL_APPS = [

@@ -10,7 +10,7 @@ def generate_email_confirm_token(user):
 
 def verify_email_confirm_token(token):
     try:
-        unsigned = signer,unsigned(token, max_age=settings.TOKEN_EXPIRY_SECONDS)
+        unsigned = signer.unsign(token, max_age=settings.TOKEN_EXPIRY_SECONDS)
         return int(unsigned)
     except (BadSignature, SignatureExpired):
         return None

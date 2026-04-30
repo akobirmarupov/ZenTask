@@ -13,7 +13,7 @@ from datetime import timedelta
 from drf_yasg.utils import swagger_auto_schema
 
 from account.email_send import send_email
-from account.api_endpoints.serializers import RegisterInputSerializer
+from account.api_endpoints.serializers import RegisterInputSerializer, ConfirmTokenSerializer
 
 
 User = get_user_model() 
@@ -83,3 +83,40 @@ class UserRegisterCreateAPIView(APIView):
             "detail": "Yangi foydalanuvchi yaratildi. Emailga tasdiqlash kodi yuborildi.",
             "is_confirmed": False
         }, status=status.HTTP_201_CREATED)
+    
+
+
+class UserRegisterConfirmAPIView(APIView):
+    permission_classes = []
+    @swagger_auto_schema(request_body=ConfirmTokenSerializer, tags=['send_sms'])
+    def post(self, request):
+        serializer = ConfirmTokenSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        token = serializer.validated_data.get('token')
+
+        user_id = verify_email_confirm_token(token)
+
+        if not user_id:
+            return Response({'detail': 'Token yaroqsiz yoki muddati utgan.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'detail': 'Foydalanuvchi topilmadi.'}, status=status.HTTP_404_NOT_FOUND)
+        
+        if user.is_confirmed:
+            return Response({'detail': 'Email allaqachon tasdiqlangan.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user.is_confirmed = True
+        user.is_active = True
+        user.save()
+
+
+        return Response(
+            {
+                'detail': 'Email muvaffaqiyatli tasdiqlandi. Endi tizimga kirishingiz mumkin.',}, 
+            status=status.HTTP_200_OK
+        )
