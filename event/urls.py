@@ -3,8 +3,9 @@ from event.api_endpoints.category.views import (
     CategoriyListAPIView, CategoryAPIVIew, CategoryDetailAPIView, 
     SubcategoryAPIView, SubcategoryListAPIView,SubCategoryDetailAPIView)
 from event.api_endpoints.course.views import (
-    CourseListAPIView, CourseAPIView, CourseDetailAPIView,
-    LessonListAPIView, LessonAPIView, LessonDetailAPIView
+    CourseListAPIView, CourseAPIView, CourseDetailAPIView, LessonListAPIView, 
+    LessonAPIView, LessonDetailAPIView, EnrollmentAPIView, EnrolledCoursesAPIView,
+    TeacherApplicationsListView, TeacherApplicationApproveView
 )
 
 urlpatterns = [
@@ -20,7 +21,13 @@ urlpatterns = [
     path('my-course/', CourseAPIView.as_view(), name='course-list'),
     path('dt-course/<int:pk>/', CourseDetailAPIView.as_view(), name='dt-course'),
 
-    path('lessons/all/', LessonListAPIView.as_view(), name='lesson-list-all'),
+    path('lesson/', LessonListAPIView.as_view(), name='lesson-list-all'),
     path('lessons/', LessonAPIView.as_view(), name='lesson-list-create'),
     path('lessons/<int:pk>/', LessonDetailAPIView.as_view(), name='lesson-detail'),
-]
+
+    path('enrolment/', EnrolledCoursesAPIView.as_view(), name='enrolment-list-all'),
+    path('courses/<int:pk>/enroll/', EnrollmentAPIView.as_view(), name='course-enroll'),
+
+    path('application/', TeacherApplicationsListView.as_view(), name='application-all'),
+    path('application/<int:enrollment_id>/approve/', TeacherApplicationApproveView.as_view(), name='application-approve'),    
+    ]

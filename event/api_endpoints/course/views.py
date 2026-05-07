@@ -4,9 +4,10 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from account.permissions import IsTeacherUserRole, IsAdminUserRole
 from drf_yasg.utils import swagger_auto_schema
+from django.shortcuts import get_object_or_404
 
-from event.api_endpoints.course.serializer import LessonSerializer, CourseSerializer
-from event.models import Course, Lesson
+from event.api_endpoints.course.serializer import LessonSerializer, CourseSerializer, EnrollmentSerializer
+from event.models import Course, Lesson, Enrollment
 
 
 class CourseListAPIView(APIView):
@@ -48,7 +49,7 @@ class CourseDetailAPIView(APIView):
         if not course:
             return Response({'detail': 'Bunday id da Course topilmadi.'}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = CourseSerializer(course)
+        serializer = CourseSerializer(course, context={'request': request})
         return Response(serializer.data)
     
 
@@ -147,3 +148,78 @@ class LessonDetailAPIView(APIView):
         
         lesson.delete()
         return Response({'detail': 'Dars muvaffaqiyatli o‘chirildi!'}, status=status.HTTP_200_OK)
+    
+
+class EnrolledCoursesAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        enrollments = Enrollment.objects.filter(user=request.user).select_related('course')
+        
+        courses = [enrol.course for enrol in enrollments]
+
+        serializer = CourseSerializer(courses, many=True, context={'request': request})
+        
+        return Response(serializer.data)
+
+class EnrollmentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=EnrollmentSerializer, tags=['enrolment'])
+    def post(self, request, pk):
+        course = get_object_or_404(Course, pk=pk)
+
+        if Enrollment.objects.filter(user=request.user, course=course).exists():
+            return Response(
+                {"detail": "Siz bu kursga allaqachon yozilgansiz."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        Enrollment.objects.create(user=request.user, course=course)
+        return Response(
+            {"detail": "Kursga muvaffaqiyatli yozildingiz."}, 
+            status=status.HTTP_201_CREATED
+        )
+    
+    @swagger_auto_schema(tags=['enrolment'])
+    def delete(self, request, pk):
+        enrollment = Enrollment.objects.filter(user=request.user, course_id=pk)
+        if enrollment.exists():
+            enrollment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"detail": "Siz bu kursga yozilmagansiz."}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+
+
+class TeacherApplicationsListView(APIView):
+    permission_classes = [IsTeacherUserRole]
+
+    @swagger_auto_schema(responses={200: EnrollmentSerializer}, tags=['application'])
+    def get(self, request):
+        applications = Enrollment.objects.filter(course__owner=request.user).order_by('-date_enrolled')
+        
+        serializer = EnrollmentSerializer(applications, many=True)
+        return Response(serializer.data)
+
+
+class TeacherApplicationApproveView(APIView):
+    permission_classes = [IsTeacherUserRole]
+
+    @swagger_auto_schema(responses={200: "Tasdiqlandi", 403: "Ruxsat yo'q", 404: "Topilmadi"},tags=['application'])
+    def post(self, request, enrollment_id):
+        enrollment = get_object_or_404(Enrollment, id=enrollment_id)
+        
+        if enrollment.course.owner != request.user:
+            return Response({"detail": "Sizda bu amal uchun ruxsat yo'q."}, status=status.HTTP_403_FORBIDDEN)
+        
+        enrollment.status = 'approved'
+        enrollment.is_active = True
+        enrollment.save()
+        
+        return Response({
+            "detail": "Kursga a'zolik muvaffaqiyatli tasdiqlandi!",
+            "status": enrollment.status
+        }, status=status.HTTP_200_OK)
