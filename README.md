@@ -87,28 +87,17 @@ cd ZenTask
     python manage.py runserver
     ```
 
----
-
-### 📝 API Endpoints (Chat qismi):
-*   `POST /api/v1/chat/messages/` - Xabar va media fayl yuborish (`multipart/form-data`).
-*   `GET /api/v1/chat/rooms/` - Foydalanuvchi suhbatlari ro'yxati.
-*   `GET /api/v1/chat/rooms/{id}/messages/` - Xona ichidagi barcha xabarlar tarixi.
 
 ---
 
 ### 👨‍💻 Muallif:
 **Akobir Marupov**
 *   Python Backend Developer
-*   LinkedIn: [Sizning LinkedIn Havolangiz]
+*   LinkedIn: [<a href="https://linkedin.com/in/akobir-marupov-55b528401/" target="blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /></a>]
 
 ---
 
 ### 📄 Litsenziya:
 Ushbu loyiha MIT litsenziyasi ostida yaratilgan.
-
----
-
-### Maslahat:
-README faylini GitHub'ga yuklaganingizdan so'ng, yuqorida keltirilgan bo'limlarni loyihangizning real holatiga qarab biroz boyitishingiz mumkin. Masalan, Swagger dokumentatsiyasidan screenshotlar qo'shsangiz, yanada professional ko'rinadi!
 
 ```
