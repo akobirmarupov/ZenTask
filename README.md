@@ -87,17 +87,11 @@ cd ZenTask
     python manage.py runserver
     ```
 
+```
 
----
 
 ### 👨‍💻 Muallif:
 **Akobir Marupov**
 *   Python Backend Developer
 *   LinkedIn: [<a href="https://linkedin.com/in/akobir-marupov-55b528401/" target="blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /></a>]
 
----
-
-### 📄 Litsenziya:
-Ushbu loyiha MIT litsenziyasi ostida yaratilgan.
-
-```
