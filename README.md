@@ -21,15 +21,6 @@
 
 ---
 
-## ✨ Asosiy imkoniyatlar
-
-### 💬 Real-time Chat (WebSocket)
-- Django Channels va WebSocket orqali real vaqtdagi muloqot
-- Matn, rasm, video, audio va hujjat (.pdf, .doc) yuborish
-- Har bir suhbat kurs yoki vakansiyaga bog'langan (Contextual Chat)
-- Xabar o'qilganlik holati (`is_read`) kuzatish
-- Media fayllar hajmi va original nomini saqlagan holda saqlanadi
-
 ### 🎓 Kurslar va Ta'lim
 - Kurslarni yaratish, tahrirlash, o'chirish (CRUD)
 - Talabalar kurslarga ariza yuborish tizimi
@@ -52,7 +43,6 @@
 |---|---|
 | **Backend** | Python 3.x, Django 6.0 |
 | **REST API** | Django REST Framework 3.17 |
-| **Real-time** | Django Channels, WebSockets |
 | **Ma'lumotlar bazasi** | PostgreSQL (production), SQLite (dev) |
 | **Caching / Channels Layer** | Redis |
 | **Autentifikatsiya** | JWT (`djangorestframework-simplejwt`) |
@@ -72,8 +62,6 @@ EduPlatform/
 ├── event/              # Kurslar, modullar va ta'lim jarayoni
 ├── vacancies/          # Vakansiyalar va ish ariza tizimi
 ├── common/             # Umumiy yordamchi funksiyalar
-├── templates/          # HTML shablonlar
-├── channels            # WebSocket routing
 ├── manage.py
 ├── requirements.txt
 └── .env.example
@@ -105,14 +93,6 @@ EduPlatform/
 | `GET` | `/api/vacancies/` | Barcha vakansiyalar |
 | `POST` | `/api/vacancies/` | Yangi vakansiya |
 | `GET` | `/api/vacancies/{id}/` | Vakansiya tafsiloti |
-
-### Chat
-| Method | Endpoint | Tavsif |
-|--------|----------|--------|
-| `GET` | `/api/conversations/` | Barcha suhbatlar |
-| `POST` | `/api/conversations/` | Yangi suhbat boshlash |
-| `WS` | `ws://host/ws/chat/{room_id}/` | WebSocket ulanish |
-
 ---
 
 ## ⚙️ O'rnatish
