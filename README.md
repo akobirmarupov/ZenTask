@@ -6,8 +6,6 @@
 ![Django](https://img.shields.io/badge/Django-6.0-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![DRF](https://img.shields.io/badge/DRF-3.17-red?style=for-the-badge&logo=django&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![WebSocket](https://img.shields.io/badge/WebSocket-Django_Channels-green?style=for-the-badge)
 
 **O'quv markazlari, o'qituvchilar va talabalar uchun keng qamrovli LMS va karyera platformasi.**
 
@@ -44,7 +42,6 @@
 | **Backend** | Python 3.x, Django 6.0 |
 | **REST API** | Django REST Framework 3.17 |
 | **Ma'lumotlar bazasi** | PostgreSQL (production), SQLite (dev) |
-| **Caching / Channels Layer** | Redis |
 | **Autentifikatsiya** | JWT (`djangorestframework-simplejwt`) |
 | **API Docs** | Swagger / Redoc |
 | **Media** | Pillow |
@@ -58,7 +55,7 @@
 EduPlatform/
 ├── config/             # Asosiy sozlamalar (settings, urls, asgi)
 ├── account/            # Foydalanuvchi modeli va autentifikatsiya
-├── conversation/       # Real-time chat, xabarlar va media fayllar
+├── conversation/       # Chat, xabarlar va media fayllar
 ├── event/              # Kurslar, modullar va ta'lim jarayoni
 ├── vacancies/          # Vakansiyalar va ish ariza tizimi
 ├── common/             # Umumiy yordamchi funksiyalar
@@ -93,6 +90,7 @@ EduPlatform/
 | `GET` | `/api/vacancies/` | Barcha vakansiyalar |
 | `POST` | `/api/vacancies/` | Yangi vakansiya |
 | `GET` | `/api/vacancies/{id}/` | Vakansiya tafsiloti |
+
 ---
 
 ## ⚙️ O'rnatish
@@ -125,7 +123,6 @@ cp .env.example .env
 SECRET_KEY=your-secret-key-here
 DEBUG=True
 DATABASE_URL=postgresql://user:password@localhost:5432/eduplatform
-REDIS_URL=redis://localhost:6379
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 
