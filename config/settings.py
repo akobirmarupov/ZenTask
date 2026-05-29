@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c%f%u_8%lxutfg9hn+eo6xc+big=uhujt*p6ef7kh#_1)otvch'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mentix.onrender.com', '*']
 
 
 
