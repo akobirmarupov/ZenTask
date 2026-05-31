@@ -55,3 +55,26 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
             raise serializers.ValidationError({"confirm_password": "Parollar mos kelmadi."})
         validate_password(attrs["new_password"])
         return attrs
+    
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        email = attrs["email"]
+        password = attrs["password"]
+
+        user = User.objects.filter(email=email, is_active=True).first()
+        if not user:
+            raise serializers.ValidationError({"email": "Bu email bilan foydalanuvchi topilmadi."})
+
+        if not user.check_password(password):
+            raise serializers.ValidationError({"password": "Parol noto'g'ri."})
+
+        if not user.is_confirmed:
+            raise serializers.ValidationError({"email": "Email tasdiqlanmagan."})
+
+        attrs["user"] = user
+        return attrs

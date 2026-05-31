@@ -31,6 +31,7 @@ AUTH_USER_MODEL = 'account.User'
 # Application definition
 
 DJANGO_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,7 +49,6 @@ LOCAL_APPS = [
 ]
 
 EXTERNAL_APPS = [
-    'jazzmin',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
@@ -238,7 +238,7 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
     "theme": "default",
-    "dark_mode_theme": "darkly", # Bu yerda qorong'u rejim yoqiladi
+    "dark_mode_theme": "darkly",
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",

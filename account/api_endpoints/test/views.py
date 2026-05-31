@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 from .serializers import (
     RegisterSerializer,
@@ -13,10 +15,31 @@ from .serializers import (
     PasswordResetRequestSerializer,
     PasswordResetVerifySerializer,
     PasswordResetConfirmSerializer,
+    LoginSerializer
 )
 from account.email import send_email_code, verify_email_code
 
 User = get_user_model()
+
+
+
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
+    @swagger_auto_schema(tags=["Autentifikatsiya"], request_body=LoginSerializer,)
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            "access":  str(refresh.access_token),
+            "refresh": str(refresh),
+        }, status=status.HTTP_200_OK)
+
+
 
 
 class RegisterView(APIView):

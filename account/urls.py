@@ -4,6 +4,7 @@ from account.api_endpoints.test.views import (
     RegisterVerifyView,
     PasswordResetRequestView,
     PasswordResetConfirmView,
+    LoginView
 )
 
 urlpatterns = [
@@ -14,4 +15,6 @@ urlpatterns = [
     # Parol tiklash
     path("auth/password/reset/",         PasswordResetRequestView.as_view(), name="password-reset"),
     path("auth/password/reset/confirm/", PasswordResetConfirmView.as_view(), name="password-reset-confirm"),
+    path("auth/login/", LoginView.as_view(), name="login"),
+
 ]
