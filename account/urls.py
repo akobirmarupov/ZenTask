@@ -1,4 +1,6 @@
 from django.urls import path
+from rest_framework_simplejwt.views import TokenRefreshView
+
 from account.api_endpoints.test.views import (
     RegisterView,
     RegisterVerifyView,
@@ -8,6 +10,7 @@ from account.api_endpoints.test.views import (
 )
 
 urlpatterns = [
+    path("auth/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     # Ro'yxatdan o'tish
     path("auth/register/",        RegisterView.as_view(),       name="register"),
     path("auth/register/verify/", RegisterVerifyView.as_view(), name="register-verify"),

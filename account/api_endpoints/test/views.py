@@ -13,7 +13,6 @@ from .serializers import (
     RegisterSerializer,
     RegisterVerifySerializer,
     PasswordResetRequestSerializer,
-    PasswordResetVerifySerializer,
     PasswordResetConfirmSerializer,
     LoginSerializer
 )
