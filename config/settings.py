@@ -210,6 +210,9 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 TOKEN_EXPIRY_SECONDS = 3600
 
 
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")x
+
+
 # Frontend ilova URL manzili (emaildagi tasdiqlash havolasi uchun)
 FRONTEND_URL = "https://zentaskob.uz"
 
